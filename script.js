@@ -106,13 +106,23 @@ const getRandomArrIndex = function (arrLength) {
   return Math.floor(Math.random() * arrLength);
 };
 
+//scramble final array to avoid pattern
+const scrambleArray = function (array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+};
+
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
 function writePassword() {
   let passwordText = document.querySelector("#password");
-  passwordArr = [];
+  // passwordArr = [];
   passwordLength = Number(
     prompt(
       "Please choose a password length. The password must be at least 9 characters and less than 129 characters in length."
@@ -135,7 +145,7 @@ const generatePassword = function () {
   let uppercaseToggle = true;
   let specialToggle = true;
   let numericToggle = true;
-  //loops through each array picked by user and randomly selects a value from each array
+  //loops through each array picked by user and randomly selects a value from each array, adds to final password array
   for (let i = 0; i < passwordLength; i++) {
     if (lowercase && lowercaseToggle) {
       let randomIndex = getRandomArrIndex(lowercaseArr.length);
@@ -161,5 +171,9 @@ const generatePassword = function () {
       i--;
     }
   }
+
+  //shuffles array before joining
+  scrambleArray(passwordArr);
+  //transforms password array to string without commas
   return passwordArr.join("");
 };
